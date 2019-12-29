@@ -49,4 +49,5 @@ def play_capital_quiz(questions=5, answers=4, option='country'):
     print(f'{BOLD}Final score: {points}/{questions}{END}')
 
 if __name__ == '__main__':
-    play_capital_quiz()
+    play_capital_quiz(questions=8)
+    play_capital_quiz(option='us_state')
