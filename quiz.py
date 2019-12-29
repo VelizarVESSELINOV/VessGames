@@ -32,7 +32,7 @@ def play_us_capital_quiz():
                 answer = input('Answer [ABCD or abcd]: ')
                 answer = dtf.loc[answers[ord(answer[0].lower()) - 97], 'Capital']
             except IndexError:
-                print('Expected answer ABCD')
+                print(f'Expected answer {BOLD}[ABCD or abcd]{END}')
             else:
                 break
 
