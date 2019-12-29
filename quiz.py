@@ -6,33 +6,35 @@ BOLD = '\033[1m'
 END = '\033[0m'
 
 
-def play_us_capital_quiz():
+def play_capital_quiz(questions=5, answers=4, option='country'):
     """Play US Capitals quiz."""
-    dtf = read_csv('quiz_data.csv')
+    dtf = read_csv(f'quiz_{option}_capitals.csv')
 
-    questions = min(5, len(dtf))
+    questions = min(questions, len(dtf))
     quiz = sample(range(len(dtf)), questions)
     points = 0
 
     for i, num in enumerate(quiz):
-        answers = sample(range(len(dtf)), 4)
+        current_answers = sample(range(len(dtf)), answers)
 
-        if num not in answers:
-            answers[randint(0, 3)] = num
+        if num not in current_answers:
+            current_answers[randint(0, 3)] = num
 
-        question = f'{i + 1}/{questions}: What it is the capital of {BOLD}{dtf.loc[num, "State"]}{END}?\n'
+        question = f'{i + 1}/{questions}: What it is the capital of {BOLD}{dtf.loc[num, "Entity"]}{END}?\n'
 
-        for j in range(4):
-            question += f'\t{chr(97 + j).upper()}. {dtf.loc[answers[j], "Capital"]}\n'
+        for j in range(answers):
+            question += f'\t{chr(97 + j).upper()}. {dtf.loc[current_answers[j], "Capital"]}\n'
 
         print(question)
+        possible_answers = ''.join([chr(97 + j).upper() for j in range(answers)])
+        possible_answers += ' or ' + possible_answers.lower()
 
         while True:
             try:
-                answer = input('Answer [ABCD or abcd]: ')
-                answer = dtf.loc[answers[ord(answer[0].lower()) - 97], 'Capital']
+                answer = input(f'Answer [{possible_answers}]: ')
+                answer = dtf.loc[current_answers[ord(answer[0].lower()) - 97], 'Capital']
             except IndexError:
-                print(f'Expected answer {BOLD}[ABCD or abcd]{END}')
+                print(f'Expected answer {BOLD}[{possible_answers}]{END}')
             else:
                 break
 
@@ -47,4 +49,4 @@ def play_us_capital_quiz():
     print(f'{BOLD}Final score: {points}/{questions}{END}')
 
 if __name__ == '__main__':
-    play_us_capital_quiz()
+    play_capital_quiz()
