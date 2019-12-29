@@ -46,5 +46,5 @@ def play_us_capital_quiz():
 
     print(f'{BOLD}Final score: {points}/{questions}{END}')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     play_us_capital_quiz()
