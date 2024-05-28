@@ -1,5 +1,6 @@
 from random import randint, sample
 
+from colorlog import debug
 from pandas import read_csv
 
 
@@ -25,7 +26,11 @@ def quiz_sample(questions=5, answers=4, option="country"):
 ]
     """
     dtf = read_csv(f"quiz_{option}_capitals.csv")
+
+    debug(dtf)
     question_list = sample(range(len(dtf)), min(questions, len(dtf)))
+
+    debug(question_list)
 
     quiz_list = []
 
@@ -51,5 +56,6 @@ def quiz_sample(questions=5, answers=4, option="country"):
             }
         )
 
-    print(quiz_list)
+    debug(quiz_list)
     return quiz_list
+    # return None

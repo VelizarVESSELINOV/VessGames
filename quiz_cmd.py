@@ -1,4 +1,7 @@
+from argparse import ArgumentParser
+
 from colorama import Fore, Style
+from colorlog import DEBUG, INFO, ColoredFormatter, StreamHandler, getLogger
 
 from quiz_generator import quiz_sample
 
@@ -45,6 +48,51 @@ def play_capital_quiz(questions=5, answers=4, option="country"):
     print(f"{Style.BRIGHT}Final score: {score}/{questions}{Style.RESET_ALL}")
 
 
-if __name__ == "__main__":
+def configure_logging(verbose):
+    # Define the color formatter
+    color_formatter = ColoredFormatter(
+        "%(log_color)s%(levelname)s: " "%(name)s: " "%(message)s",
+        log_colors={
+            "DEBUG": "cyan",
+            "INFO": "green",
+            "WARNING": "yellow",
+            "ERROR": "red",
+            "CRITICAL": "bold_red",
+        },
+    )
+
+    # Get the root logger
+    logger = getLogger()
+
+    # Set the logging level based on the verbose flag
+    if verbose:
+        logger.setLevel(DEBUG)
+    else:
+        logger.setLevel(INFO)
+
+    # Create a stream handler
+    stream_handler = StreamHandler()
+    stream_handler.setFormatter(color_formatter)
+
+    # Add the handler to the logger
+    logger.addHandler(stream_handler)
+
+
+def main():
+    parser = ArgumentParser(description="Example script with verbose logging")
+    parser.add_argument(
+        "-v", "--verbose", action="store_true", help="Enable verbose logging"
+    )
+
+    # Parse command line arguments
+    args = parser.parse_args()
+
+    # Configure logging
+    configure_logging(args.verbose)
+
     play_capital_quiz(questions=8)
     play_capital_quiz(option="us_state")
+
+
+if __name__ == "__main__":
+    main()
