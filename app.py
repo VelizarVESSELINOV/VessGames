@@ -9,6 +9,7 @@ from flask import (
     render_template,
     request,
     send_from_directory,
+    session,
     url_for,
 )
 
@@ -16,6 +17,8 @@ from quiz_cmd import configure_logging
 from quiz_generator import quiz_sample
 
 APP = Flask(__name__)
+APP.secret_key = """km'@N:e[b+9;>:YY]C/H}$V5(vHR*Ar@JZfQW^]B@j@D:NC<G]O^2!$lyywX3wu"""
+APP.config["SESSION_TYPE"] = "memcached"
 
 QUIZ_LIST = None
 BRAND_NAME = "VGameStore"
@@ -43,6 +46,7 @@ def quiz(questions, answers, option):
     if request.method == "POST":
         score = 0
         wrong_answers = []
+        wrong_count = 1
 
         for i, question in enumerate(QUIZ_LIST):
             selected_option = request.form.get(f"question-{i}")
@@ -52,10 +56,19 @@ def quiz(questions, answers, option):
                 score += 1
             else:
                 wrong_answers.append(
-                    f"Given answer: {selected_option}, correct answer: {question['answer']}"
+                    f"""<p>{wrong_count}. Question: {question['question']}</p><p class="text-danger">Wrong answer: {selected_option}</p><p class="text-success">Correct answer: {question['answer']}</p>"""
+                    + '<img src="'
+                    + question["image"]
+                    + '" class="img-fluid rounded float-md-end mb-3 ms-md-3" height="250" width="200" />'
+                    if "image" in question
+                    else ""
                 )
+                wrong_count += 1
 
-        return redirect(url_for("result", score=score, wrong_answers=wrong_answers))
+        session["score"] = score
+        session["wrong_answers"] = wrong_answers
+        debug(f"wrong_answers: {wrong_answers}")
+        return redirect(url_for("result"))
     else:
         QUIZ_LIST = quiz_sample(questions, answers, option)
         debug(QUIZ_LIST)
@@ -101,9 +114,12 @@ def quiz(questions, answers, option):
 
 @APP.route("/result")
 def result():
-    score = request.args.get("score", type=int)
     return render_template(
-        "result.html", score=score, questions=QUIZ_LIST, brand_name=BRAND_NAME
+        "result.html",
+        questions=QUIZ_LIST,
+        brand_name=BRAND_NAME,
+        score=session.get("score"),
+        wrong_answers=session.get("wrong_answers"),
     )
 
 

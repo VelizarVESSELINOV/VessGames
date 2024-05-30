@@ -2,10 +2,15 @@
 {% block content %}
 <div class="text-center">
     <h2>Your score: {{ score }} / {{ questions|length }}</h2>
-    <h4>Percentage of correct answers: {{ score / questions|length * 100 }} %</h4>
-
-    {% for wrong_answer in wrong_answers %}
-        <p>{{ wrong_answer }}</p>
+    <h4>Percentage of correct answers: {{ score / questions | length * 100 }}%</h4>
+</div>
+<ul class="list-group text-left-aligned">
+{% for wrong_answer in wrong_answers %}
+    <li class="list-group-item"><h5>{{ wrong_answer | safe }}</h5></li>
+{% endfor %}
+</ul>
+<br>
+<div class="text-center">
     <a class="btn btn-primary" href="{{ url_for('quiz') }}">Retake quiz</a>
 </div>
 {% endblock %}
