@@ -1,4 +1,5 @@
 from os.path import join
+from re import sub
 
 from colorlog import debug
 from flask import (
@@ -12,19 +13,26 @@ from flask import (
 
 from quiz_generator import quiz_sample
 
-app = Flask(__name__)
+APP = Flask(__name__)
 
 QUIZ_LIST = None
 BRAND_NAME = "VGameStore"
 
 
-@app.route("/")
+@APP.route("/")
 def index():
     return render_template("index.html", brand_name=BRAND_NAME)
 
 
-@app.route("/quiz", methods=["GET", "POST"])
-def quiz(questions=5, answers=4, option="country"):
+@APP.route(
+    "/quiz",
+    methods=["GET", "POST"],
+    defaults={"questions": 10, "answers": 4, "option": "country"},
+)
+@APP.route(
+    "/quiz/<option>", methods=["GET", "POST"], defaults={"questions": 10, "answers": 4}
+)
+def quiz(questions, answers, option):
     global QUIZ_LIST
 
     if QUIZ_LIST is None:
@@ -45,12 +53,32 @@ def quiz(questions=5, answers=4, option="country"):
         QUIZ_LIST = quiz_sample(questions, answers, option)
         debug(QUIZ_LIST)
 
+    if option == "country":
+        quiz_name = "Countries capitals quiz"
+    else:
+        quiz_name = "US states capitals quiz"
+
+    # Convert the question text to HTML with bold around location name
+    html_quiz_list = [
+        {
+            **d,
+            "question": sub(
+                r"^(.*capital of) (.*)\?$", r"\1 <b>\2</b>?", d["question"]
+            ),
+        }
+        for d in QUIZ_LIST
+    ]
+
     return render_template(
-        "quiz.html", questions=QUIZ_LIST, enumerate=enumerate, brand_name=BRAND_NAME
+        "quiz.html",
+        questions=html_quiz_list,
+        enumerate=enumerate,
+        brand_name=BRAND_NAME,
+        quiz_name=quiz_name,
     )
 
 
-@app.route("/result")
+@APP.route("/result")
 def result():
     score = request.args.get("score", type=int)
     return render_template(
@@ -58,14 +86,14 @@ def result():
     )
 
 
-@app.route("/favicon.ico")
+@APP.route("/favicon.ico")
 def favicon():
     return send_from_directory(
-        join(app.root_path, "static"),
+        join(APP.root_path, "static"),
         "favicon.ico",
         mimetype="image/vnd.microsoft.icon",
     )
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    APP.run(debug=True)

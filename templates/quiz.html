@@ -1,23 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Quiz</h2>
+<h2>{{ quiz_name }}</h2>
 <form method="post">
     {% for i, question in enumerate(questions) %}
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title">{{ question.question }}</h5>
-                <div class="form-group">
-                    {% for option in question.options %}
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="question-{{ i }}" id="question-{{ i }}-{{ option }}" value="{{ option }}" required>
-                            <label class="form-check-label" for="question-{{ i }}-{{ option }}">
-                                {{ option }}
-                            </label>
-                        </div>
-                    {% endfor %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ question.question | safe }}</h5>
+            <div class="form-group">
+                {% for option in question.options %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question-{{ i }}"
+                        id="question-{{ i }}-{{ option }}" value="{{ option }}" required>
+                    <label class="form-check-label" for="question-{{ i }}-{{ option }}">
+                        {{ option }}
+                    </label>
                 </div>
+                {% endfor %}
             </div>
         </div>
+    </div>
     {% endfor %}
     <button type="submit" class="btn btn-success">Submit</button>
 </form>
