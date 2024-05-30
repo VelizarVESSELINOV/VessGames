@@ -15,11 +15,11 @@ State,Illinois,IL,Springfield,,12671821,149996571421.9991
 State,Indiana,IN,Indianapolis,,6732219,94327366978.43712
 State,Iowa,IA,Des Moines,,3155070,145746400932.93774
 State,Kansas,KS,Topeka,,2913314,213099041742.2254
-State,Kentucky[E],KY,Frankfort,,4467673,104656239562.45709
+State,Kentucky,KY,Frankfort,,4467673,104656239562.45709
 State,Louisiana,LA,Baton Rouge,,4648794,135658397243.17902
 State,Maine,ME,Augusta,,1344212,91633779343.68768
 State,Maryland,MD,Annapolis,,6045680,32131392496.82842
-State,Massachusetts[E],MA,Boston,,6892503,27334734516.486145
+State,Massachusetts,MA,Boston,,6892503,27334734516.486145
 State,Michigan,MI,Lansing,,9986857,250488110103.03592
 State,Minnesota,MN,St. Paul,,5639632,225163206360.1705
 State,Mississippi,MS,Jackson,,2976149,125438304159.79315
@@ -36,8 +36,8 @@ State,North Dakota,ND,Bismarck,,762062,183106979424.53455
 State,Ohio,OH,Columbus,,11689100,116098807033.92154
 State,Oklahoma,OK,Oklahoma City,,3956971,181037578924.37607
 State,Oregon,OR,Salem,,4217737,254800440306.74536
-State,Pennsylvania[E],PA,Harrisburg,,12801989,119279312433.41415
-State,Rhode Island[F],RI,Providence,,1059361,4001531630.46912
+State,Pennsylvania,PA,Harrisburg,,12801989,119279312433.41415
+State,Rhode Island,RI,Providence,,1059361,4001531630.46912
 State,South Carolina,SC,Columbia,,5148714,82931419292.95872
 State,South Dakota,SD,Pierre,,884659,199729523116.671
 State,Tennessee,TN,Nashville,,6829174,109152458922.00038
