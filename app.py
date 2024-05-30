@@ -62,7 +62,11 @@ def quiz(questions, answers, option):
 
     if option == "country_capital":
         quiz_name = "Countries capitals quiz"
-    else:
+    elif option == "country_flag":
+        quiz_name = "Countries flags quiz"
+    elif option == "us_state_flag":
+        quiz_name = "US states flags quiz"
+    elif option == "us_state_capital":
         quiz_name = "US states capitals quiz"
 
     # Convert the question text to HTML with bold around location name

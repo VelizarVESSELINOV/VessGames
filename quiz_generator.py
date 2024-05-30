@@ -36,6 +36,14 @@ def quiz_sample(questions=10, answers=4, option="country_capital"):
         image_path = "https://flagcdn.com/"
         image_extension = ".svg"
         filter = None
+    elif option == "country_flag":
+        file_name = "data/quiz_country_capitals.csv"
+        source = "Name"
+        target = "Name"
+        image = "ISO2"
+        image_path = "https://flagcdn.com/"
+        image_extension = ".svg"
+        filter = None
     elif option == "europe_capital":
         file_name = "data/quiz_country_capitals.csv"
         source = "Name"
@@ -52,6 +60,14 @@ def quiz_sample(questions=10, answers=4, option="country_capital"):
         image_path = "https://flagcdn.com/w1600/us-"
         image_extension = ".png"
         filter = {"Type": "State"}
+    elif option == "us_state_flag":
+        file_name = "data/quiz_us_state_capitals.csv"
+        source = "Name"
+        target = "Name"
+        image = "Code"
+        image_path = "https://flagcdn.com/w1600/us-"
+        image_extension = ".png"
+        filter = {"Type": "State"}
     else:
         warning(f"Unknown option: {option}")
         return
@@ -63,7 +79,9 @@ def quiz_sample(questions=10, answers=4, option="country_capital"):
             dtf = dtf[dtf[key] == value]
 
     dtf = dtf[dtf[source].notnull()]
-    dtf = dtf[dtf[target].notnull()].reset_index().copy()
+
+    if target is not None:
+        dtf = dtf[dtf[target].notnull()].reset_index().copy()
 
     debug(dtf)
     question_list = sample(range(len(dtf)), min(questions, len(dtf)))
@@ -82,9 +100,10 @@ def quiz_sample(questions=10, answers=4, option="country_capital"):
 
         current_answers = [dtf.loc[row, target] for row in current_answers]
 
-        question = (
-            f"{i + 1}/{questions}: What it is the capital of {dtf.loc[num, source]}?"
-        )
+        if "capital" in option:
+            question = f"{i + 1}/{questions}: What it is the capital of {dtf.loc[num, source]}?"
+        elif "flag" in option:
+            question = f"{i + 1}/{questions}: What is source of this flag?"
 
         dic = {
             "question": question,
