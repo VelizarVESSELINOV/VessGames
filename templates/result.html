@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="text-center">
-    <h2>Your Score: {{ score }} / {{ questions|length }}</h2>
-    <a class="btn btn-primary" href="{{ url_for('quiz') }}">Retake Quiz</a>
+    <h2>Your score: {{ score }} / {{ questions|length }}</h2>
+    <h4>Percentage of correct answers: {{ score / questions|length * 100 }} %</h4>
+
+    {% for wrong_answer in wrong_answers %}
+        <p>{{ wrong_answer }}</p>
+    <a class="btn btn-primary" href="{{ url_for('quiz') }}">Retake quiz</a>
 </div>
 {% endblock %}

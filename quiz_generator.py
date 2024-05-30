@@ -1,17 +1,18 @@
 from random import randint, sample
 
-from colorlog import debug
-from pandas import read_csv
+from colorlog import debug, warning
+from pandas import notnull, read_csv
 
 
-def quiz_sample(questions=10, answers=4, option="country"):
+def quiz_sample(questions=10, answers=4, option="country_capital"):
     """Load quiz table and select questions."""
     """
     questions = [
     {
         'question': 'What is the capital of France?',
         'options': ['Paris', 'London', 'Rome', 'Berlin'],
-        'answer': 'Paris'
+        'answer': 'Paris',
+        'image": "france.png"
     },
     {
         'question': 'What is 2 + 2?',
@@ -21,11 +22,42 @@ def quiz_sample(questions=10, answers=4, option="country"):
     {
         'question': 'What is the capital of Italy?',
         'options': ['Madrid', 'Rome', 'Lisbon', 'Athens'],
-        'answer': 'Rome'
+        'answer': 'Rome',
+        'image": "italy.png"
     }
 ]
     """
-    dtf = read_csv(f"quiz_{option}_capitals.csv")
+
+    if option == "country_capital":
+        file_name = "data/quiz_country_capitals.csv"
+        source = "Name"
+        target = "Capital"
+        image = "ISO2"
+        filter = None
+    elif option == "europe_capital":
+        file_name = "data/quiz_country_capitals.csv"
+        source = "Name"
+        target = "Capital"
+        image = None
+        filter = {"Region": "Europe"}
+    elif option == "us_state_capital":
+        file_name = "data/quiz_us_state_capitals.csv"
+        source = "State"
+        target = "Capital"
+        image = None
+        filter = None
+    else:
+        warning(f"Unknown option: {option}")
+        return
+
+    dtf = read_csv(file_name, keep_default_na=False, na_values="")
+
+    if filter is not None:
+        for key, value in filter.items():
+            dtf = dtf[dtf[key] == value]
+
+    dtf = dtf[dtf[source].notnull()]
+    dtf = dtf[dtf[target].notnull()].reset_index().copy()
 
     debug(dtf)
     question_list = sample(range(len(dtf)), min(questions, len(dtf)))
@@ -40,21 +72,25 @@ def quiz_sample(questions=10, answers=4, option="country"):
         if num not in current_answers:
             current_answers[randint(0, answers - 1)] = num
 
-        current_answers = [
-            dtf.loc[current_answers[j], "Capital"] for j in range(answers)
-        ]
+        debug(f"answers: {current_answers}")
+
+        current_answers = [dtf.loc[row, target] for row in current_answers]
 
         question = (
-            f'{i + 1}/{questions}: What it is the capital of {dtf.loc[num, "Entity"]}?'
+            f"{i + 1}/{questions}: What it is the capital of {dtf.loc[num, source]}?"
         )
 
-        quiz_list.append(
-            {
-                "question": question,
-                "options": current_answers,
-                "answer": dtf.loc[num, "Capital"],
-            }
-        )
+        dic = {
+            "question": question,
+            "options": current_answers,
+            "answer": dtf.loc[num, target],
+        }
+
+        if image is not None:
+            if notnull(dtf.loc[num, image]):
+                dic["image"] = dtf.loc[num, image] + ".svg"
+
+        quiz_list.append(dic)
 
     debug(quiz_list)
     return quiz_list

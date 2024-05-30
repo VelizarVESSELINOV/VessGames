@@ -1,12 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-
-
-<!-- <div class="jumbotron text-center">
-    <h1 class="display-4">Welcome to the {{ brand_name }} Quiz App!</h1>
-    <p class="lead">Test your knowledge with our fun quizzes.</p>
-    <a class="btn btn-primary btn-lg" href="{{ url_for('quiz') }}" role="button">Start Quiz</a>
-</div> -->
 <main>
 
     <section class="py-5 text-center container">
@@ -30,7 +23,7 @@
                     <div class="card shadow-sm">
                         <img src="{{ url_for('static', filename='images/country_capitals.jpeg') }}">
                         <div class="card-body">
-                            <p class="card-text">This is <b>world countries capitals</b> quiz.</p>
+                            <p class="card-text">This is <b>world countries and territories capitals</b> quiz.</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.href='{{ url_for('quiz') }}'">Start</button>
@@ -47,7 +40,7 @@
                             <p class="card-text">This is <b>US states capitals</b> quiz.</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.href='{{ url_for('quiz', option='us_state') }}'">Start</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.href='{{ url_for('quiz', option='us_state_capital') }}'">Start</button>
                                 </div>
                                 <small class="text-body-secondary">2 mins</small>
                             </div>
@@ -86,9 +79,9 @@
         <p class="float-end mb-1">
             <a href="#">Back to top</a>
         </p>
-        <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+        <!-- <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
         <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a
-                href="../getting-started/introduction/">getting started guide</a>.</p>
+                href="../getting-started/introduction/">getting started guide</a>.</p> -->
     </div>
 </footer>
 <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>

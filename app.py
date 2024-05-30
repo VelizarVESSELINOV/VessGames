@@ -1,3 +1,4 @@
+from argparse import ArgumentParser
 from os.path import join
 from re import sub
 
@@ -11,6 +12,7 @@ from flask import (
     url_for,
 )
 
+from quiz_cmd import configure_logging
 from quiz_generator import quiz_sample
 
 APP = Flask(__name__)
@@ -27,7 +29,7 @@ def index():
 @APP.route(
     "/quiz",
     methods=["GET", "POST"],
-    defaults={"questions": 10, "answers": 4, "option": "country"},
+    defaults={"questions": 10, "answers": 4, "option": "country_capital"},
 )
 @APP.route(
     "/quiz/<option>", methods=["GET", "POST"], defaults={"questions": 10, "answers": 4}
@@ -35,11 +37,12 @@ def index():
 def quiz(questions, answers, option):
     global QUIZ_LIST
 
-    if QUIZ_LIST is None:
-        QUIZ_LIST = quiz_sample(questions, answers, option)
+    # if QUIZ_LIST is None:
+    #     QUIZ_LIST = quiz_sample(questions, answers, option)
 
     if request.method == "POST":
         score = 0
+        wrong_answers = []
 
         for i, question in enumerate(QUIZ_LIST):
             selected_option = request.form.get(f"question-{i}")
@@ -47,13 +50,17 @@ def quiz(questions, answers, option):
 
             if selected_option == question["answer"]:
                 score += 1
+            else:
+                wrong_answers.append(
+                    f"Given answer: {selected_option}, correct answer: {question['answer']}"
+                )
 
-        return redirect(url_for("result", score=score))
+        return redirect(url_for("result", score=score, wrong_answers=wrong_answers))
     else:
         QUIZ_LIST = quiz_sample(questions, answers, option)
         debug(QUIZ_LIST)
 
-    if option == "country":
+    if option == "country_capital":
         quiz_name = "Countries capitals quiz"
     else:
         quiz_name = "US states capitals quiz"
@@ -68,6 +75,18 @@ def quiz(questions, answers, option):
         }
         for d in QUIZ_LIST
     ]
+
+    html_quiz_list = [
+        {
+            **d,
+            "image": "https://flagcdn.com/" + d["image"].lower()
+            if "image" in d
+            else "",
+        }
+        for d in QUIZ_LIST
+    ]
+
+    # https://flagcdn.com/h20/ua.png
 
     return render_template(
         "quiz.html",
@@ -96,4 +115,19 @@ def favicon():
 
 
 if __name__ == "__main__":
-    APP.run(debug=True)
+    parser = ArgumentParser(description="Quiz game with verbose logging")
+
+    parser.add_argument(
+        "-v", "--verbose", action="store_true", help="Enable verbose logging"
+    )
+
+    args = parser.parse_args()
+
+    configure_logging(args.verbose)
+
+    if args.verbose:
+        APP.config["DEBUG"] = True
+    else:
+        APP.config["DEBUG"] = False
+
+    APP.run(debug=args.verbose)
