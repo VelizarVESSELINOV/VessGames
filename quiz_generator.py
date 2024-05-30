@@ -4,7 +4,7 @@ from colorlog import debug
 from pandas import read_csv
 
 
-def quiz_sample(questions=5, answers=4, option="country"):
+def quiz_sample(questions=10, answers=4, option="country"):
     """Load quiz table and select questions."""
     """
     questions = [
