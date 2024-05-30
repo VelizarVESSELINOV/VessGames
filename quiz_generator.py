@@ -33,19 +33,25 @@ def quiz_sample(questions=10, answers=4, option="country_capital"):
         source = "Name"
         target = "Capital"
         image = "ISO2"
+        image_path = "https://flagcdn.com/"
+        image_extension = ".svg"
         filter = None
     elif option == "europe_capital":
         file_name = "data/quiz_country_capitals.csv"
         source = "Name"
         target = "Capital"
-        image = None
+        image = "ISO2"
+        image_path = "https://flagcdn.com/"
+        image_extension = ".svg"
         filter = {"Region": "Europe"}
     elif option == "us_state_capital":
         file_name = "data/quiz_us_state_capitals.csv"
-        source = "State"
+        source = "Name"
         target = "Capital"
-        image = None
-        filter = None
+        image = "Code"
+        image_path = "https://flagcdn.com/w1600/us-"
+        image_extension = ".png"
+        filter = {"Type": "State"}
     else:
         warning(f"Unknown option: {option}")
         return
@@ -88,7 +94,9 @@ def quiz_sample(questions=10, answers=4, option="country_capital"):
 
         if image is not None:
             if notnull(dtf.loc[num, image]):
-                dic["image"] = dtf.loc[num, image] + ".svg"
+                dic["image"] = (
+                    image_path + dtf.loc[num, image].lower() + image_extension
+                )
 
         quiz_list.append(dic)
 

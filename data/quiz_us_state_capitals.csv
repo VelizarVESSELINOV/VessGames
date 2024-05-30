@@ -1,52 +1,66 @@
-State,Population,Population2018,Population2010,Capital
-California,39747267,39557045,37320903,Sacramento
-Texas,29087070,28701845,25242679,Austin
-Florida,21646155,21299325,18845785,Tallahassee
-New York,19491339,19542209,19400080,Albany
-Pennsylvania,12813969,12807060,12711158,Harrisburg
-Illinois,12700381,12741080,12840762,Springfield
-Ohio,11718568,11689442,11539327,Columbus
-Georgia,10627767,10519475,9711810,Atlanta
-North Carolina,10497741,10383620,9574293,Raleigh
-Michigan,10020472,9995915,9877535,Lansing
-New Jersey,8922547,8908520,8799624,Trenton
-Virginia,8571946,8517685,8023680,Richmond
-Washington,7666343,7535591,6742902,Olympia
-Arizona,7275070,7171646,6407774,Phoenix
-Massachusetts,6939373,6902149,6566431,Boston
-Tennessee,6833793,6770010,6355301,Nashville-Davidson
-Indiana,6718616,6691878,6490436,Indianapolis
-Missouri,6147861,6126452,5995976,Jefferson City
-Maryland,6062917,6042718,5788642,Annapolis
-Wisconsin,5832661,5813568,5690479,Madison
-Colorado,5770545,5695564,5048281,Denver
-Minnesota,5655925,5611179,5310843,St. Paul
-South Carolina,5147111,5084127,4635656,Columbia
-Alabama,4898246,4887871,4785448,Montgomery
-Louisiana,4652581,4659978,4544532,Baton Rouge
-Kentucky,4484047,4468402,4348200,Frankfort
-Oregon,4245901,4190713,3837532,Salem
-Oklahoma,3948950,3943079,3759632,Oklahoma City
-Connecticut,3567871,3572665,3579125,Hartford
-Utah,3221610,3161105,2775334,Salt Lake City
-Iowa,3167997,3156145,3050767,Des Moines
-Nevada,3087025,3034392,2702464,Carson City
-Arkansas,3026412,3013825,2921978,Little Rock
-Mississippi,2987895,2986530,2970536,Jackson
-Kansas,2910931,2911505,2858213,Topeka
-New Mexico,2096034,2095428,2064588,Santa Fe
-Nebraska,1940919,1929268,1829536,Lincoln
-West Virginia,1791951,1805832,1854214,Charleston
-Idaho,1790182,1754208,1570773,Boise City
-Hawaii,1416589,1420491,1363963,Honolulu
-New Hampshire,1363852,1356458,1316777,Concord
-Maine,1342097,1338404,1327632,Augusta
-Montana,1074532,1062305,990722,Helena
-Rhode Island,1056738,1057315,1053938,Providence
-Delaware,975033,967171,899595,Dover
-South Dakota,892631,882235,816165,Pierre
-North Dakota,760900,760077,674710,Bismarck
-Alaska,735720,737438,713906,Juneau
-District of Columbia,711571,702455,605085,"Washington, D.C."
-Vermont,627180,626299,625880,Montpelier
-Wyoming,572381,577737,564483,Cheyenne
+Type,Name,Code,Capital,Population2015,Population2019,Area
+State,Alabama,AL,Montgomery,,4903185,135767176743.81313
+State,Alaska,AK,Juneau,,731545,1723336648807.809
+State,Arizona,AZ,Phoenix,,7278717,295232744697.2006
+State,Arkansas,AR,Little Rock,,3017804,137732977719.55814
+State,California,CA,Sacramento,,39512223,423968103721.45154
+State,Colorado,CO,Denver,,5758736,269602222357.31558
+State,Connecticut,CT,Hartford,,3565278,14356304095.59245
+State,Delaware,DE,Dover,,973764,6446480406.626305
+State,Florida,FL,Tallahassee,,21477737,170312438159.4747
+State,Georgia,GA,Atlanta,,10617423,153910043456.7168
+State,Hawaii,HI,Honolulu,,1415872,28313750022.193153
+State,Idaho,ID,Boise,,1787065,216442716392.6692
+State,Illinois,IL,Springfield,,12671821,149996571421.9991
+State,Indiana,IN,Indianapolis,,6732219,94327366978.43712
+State,Iowa,IA,Des Moines,,3155070,145746400932.93774
+State,Kansas,KS,Topeka,,2913314,213099041742.2254
+State,Kentucky[E],KY,Frankfort,,4467673,104656239562.45709
+State,Louisiana,LA,Baton Rouge,,4648794,135658397243.17902
+State,Maine,ME,Augusta,,1344212,91633779343.68768
+State,Maryland,MD,Annapolis,,6045680,32131392496.82842
+State,Massachusetts[E],MA,Boston,,6892503,27334734516.486145
+State,Michigan,MI,Lansing,,9986857,250488110103.03592
+State,Minnesota,MN,St. Paul,,5639632,225163206360.1705
+State,Mississippi,MS,Jackson,,2976149,125438304159.79315
+State,Missouri,MO,Jefferson City,,6137428,180540301207.19156
+State,Montana,MT,Helena,,1068778,380831851743.8055
+State,Nebraska,NE,Lincoln,,1934408,200330400358.26892
+State,Nevada,NV,Carson City,,3080156,286380165336.0722
+State,New Hampshire,NH,Concord,,1359711,24213798843.531265
+State,New Jersey,NJ,Trenton,,8882190,22592466286.46093
+State,New Mexico,NM,Santa Fe,,2096829,314916654335.7543
+State,New York,NY,Albany,,19453561,141296801359.3805
+State,North Carolina,NC,Raleigh,,10488084,139390570110.1732
+State,North Dakota,ND,Bismarck,,762062,183106979424.53455
+State,Ohio,OH,Columbus,,11689100,116098807033.92154
+State,Oklahoma,OK,Oklahoma City,,3956971,181037578924.37607
+State,Oregon,OR,Salem,,4217737,254800440306.74536
+State,Pennsylvania[E],PA,Harrisburg,,12801989,119279312433.41415
+State,Rhode Island[F],RI,Providence,,1059361,4001531630.46912
+State,South Carolina,SC,Columbia,,5148714,82931419292.95872
+State,South Dakota,SD,Pierre,,884659,199729523116.671
+State,Tennessee,TN,Nashville,,6829174,109152458922.00038
+State,Texas,TX,Austin,,28995881,695660446483.8082
+State,Utah,UT,Salt Lake City,,3205958,219882220603.1954
+State,Vermont,VT,Montpelier,,623989,24905325668.99098
+State,Virginia[E],VA,Richmond,,8535519,110786741419.6224
+State,Washington,WA,Olympia,,7614893,184660972290.73615
+State,West Virginia,WV,Charleston,,1792147,62755411913.441284
+State,Wisconsin,WI,Madison,,5822434,169633861274.56665
+State,Wyoming,WY,Cheyenne,,578759,253334507036.29517
+Federal District,District of Columbia,DC,"Washington, D.C.",,705749,176119191.502848
+Territory,American Samoa,AS,Pago Pago,57400,,1504783092.105216
+Territory,Guam,GU,Hag�t�a,161700,,1478883211.001856
+Territory,Northern Mariana Islands,MP,Saipan,52300,,5117816506.023936
+Territory,Puerto Rico,PR,San Juan,,3193694,13791686687.5392
+Territory,U.S. Virgin Islands,VI,Charlotte Amalie,103700,,1898461284.8762882
+Territory,Baker Island,,,,,2330989.2993024
+Territory,Howland Island,,,,,1553992.8662016
+Territory,Jarvis Island,,,,,5697973.8427392
+Territory,Johnston Atoll,,,,,2589988.110336
+Territory,Kingman Reef,,,,,12949.940551680002
+Territory,Midway Atoll,,,,,7769964.331008
+Territory,Navassa Island,,,,,7769964.331008
+Territory,Palmyra Atoll,,,,,3884982.165504
+Territory,Wake Island,,,,,6474970.27584

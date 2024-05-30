@@ -79,9 +79,7 @@ def quiz(questions, answers, option):
     html_quiz_list = [
         {
             **d,
-            "image": "https://flagcdn.com/" + d["image"].lower()
-            if "image" in d
-            else "",
+            "image": d["image"] if "image" in d else "",
         }
         for d in QUIZ_LIST
     ]
