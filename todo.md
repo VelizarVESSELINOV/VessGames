@@ -1,7 +1,7 @@
 # To do list
 
-1. Add logo
-1. Add product, version
+1. Add flag quiz
 1. Add unit testing
 1. Add Mermeid diagram
-1. Country per continent quiz
+1. Add per region country per continent quiz
+1. Add user tracking and ranking
