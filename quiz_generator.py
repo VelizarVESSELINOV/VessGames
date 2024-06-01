@@ -4,6 +4,36 @@ from colorlog import debug, warning
 from pandas import notnull, read_csv
 
 
+def quiz_apps():
+    return [
+        {
+            "code": "country_capital",
+            "image": "images/country_capital.jpeg",
+            "description": "This is <b>country and territories capitals</b> quiz.",
+        },
+        {
+            "code": "country_flag",
+            "image": "images/country_flag.jpeg",
+            "description": "This is <b>country and territories flags</b> quiz.",
+        },
+        {
+            "code": "europe_capital",
+            "image": "images/eu_capital.jpeg",
+            "description": "This is <b>European capitals</b> quiz.",
+        },
+        {
+            "code": "us_state_capital",
+            "image": "images/us_states_capital.png",
+            "description": "This is <b>US states capitals</b> quiz.",
+        },
+        {
+            "code": "us_state_flag",
+            "image": "images/us_states_flag.jpeg",
+            "description": "This is <b>US states capitals</b> flags.",
+        },
+    ]
+
+
 def quiz_sample(questions=10, answers=4, option="country_capital"):
     """Load quiz table and select questions."""
     """
@@ -29,7 +59,7 @@ def quiz_sample(questions=10, answers=4, option="country_capital"):
     """
 
     if option == "country_capital":
-        file_name = "data/quiz_country_capitals.csv"
+        file_name = "data/quiz_country.csv"
         source = "Name"
         target = "Capital"
         image = "ISO2"
@@ -37,7 +67,7 @@ def quiz_sample(questions=10, answers=4, option="country_capital"):
         image_extension = ".svg"
         filter = None
     elif option == "country_flag":
-        file_name = "data/quiz_country_capitals.csv"
+        file_name = "data/quiz_country.csv"
         source = "Name"
         target = "Name"
         image = "ISO2"
@@ -45,7 +75,7 @@ def quiz_sample(questions=10, answers=4, option="country_capital"):
         image_extension = ".svg"
         filter = None
     elif option == "europe_capital":
-        file_name = "data/quiz_country_capitals.csv"
+        file_name = "data/quiz_country.csv"
         source = "Name"
         target = "Capital"
         image = "ISO2"
@@ -53,7 +83,7 @@ def quiz_sample(questions=10, answers=4, option="country_capital"):
         image_extension = ".svg"
         filter = {"Region": "Europe"}
     elif option == "us_state_capital":
-        file_name = "data/quiz_us_state_capitals.csv"
+        file_name = "data/quiz_us_state.csv"
         source = "Name"
         target = "Capital"
         image = "Code"
@@ -61,7 +91,7 @@ def quiz_sample(questions=10, answers=4, option="country_capital"):
         image_extension = ".png"
         filter = {"Type": "State"}
     elif option == "us_state_flag":
-        file_name = "data/quiz_us_state_capitals.csv"
+        file_name = "data/quiz_us_state.csv"
         source = "Name"
         target = "Name"
         image = "Code"

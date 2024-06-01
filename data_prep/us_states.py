@@ -16,4 +16,4 @@ dtf.drop(columns={"AreaSquareMiles"}, inplace=True)
 
 print(dtf)
 
-dtf.to_csv("data/quiz_us_state_capitals.csv", index=False)
+dtf.to_csv("data/quiz_us_state.csv", index=False)

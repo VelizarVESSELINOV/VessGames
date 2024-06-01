@@ -2,9 +2,9 @@ import random
 
 # Define the questions and answers
 jeopardy_data = {
-    "": [
+    "Science": [
         {
-            "question": "What planet is known as the Red Planet?",
+            "question": 'What planet is known as the "red planet"?',
             "answer": "Mars",
             "points": 100,
         },
@@ -70,7 +70,11 @@ jeopardy_data = {
         },
         {
             "question": "What are the names of all planets you can visit in Honkai Star Rail? (As of 2.1.5)",
-            "answers": "Herta Space Station, Jarilo-VI, The Xianzhou Luofu, Penacony",
+            "answers": [
+                "Herta Space Station, Jarilo-VI",
+                "The Xianzhou Luofu",
+                "Penacony",
+            ],
             "points": 100,
         },
     ],

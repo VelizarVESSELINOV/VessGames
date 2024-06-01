@@ -14,7 +14,7 @@ from flask import (
 )
 
 from quiz_cmd import configure_logging
-from quiz_generator import quiz_sample
+from quiz_generator import quiz_apps, quiz_sample
 
 APP = Flask(__name__)
 APP.secret_key = """km'@N:e[b+9;>:YY]C/H}$V5(vHR*Ar@JZfQW^]B@j@D:NC<G]O^2!$lyywX3wu"""
@@ -26,7 +26,7 @@ BRAND_NAME = "VGameStore"
 
 @APP.route("/")
 def index():
-    return render_template("index.html", brand_name=BRAND_NAME)
+    return render_template("index.html", brand_name=BRAND_NAME, apps=quiz_apps())
 
 
 @APP.route(
@@ -81,6 +81,10 @@ def quiz(questions, answers, option):
         quiz_name = "US states flags quiz"
     elif option == "us_state_capital":
         quiz_name = "US states capitals quiz"
+    elif option == "europe_capital":
+        quiz_name = "European capitals quiz"
+    else:
+        quiz_name = "Unknown quiz"
 
     # Convert the question text to HTML with bold around location name
     html_quiz_list = [
