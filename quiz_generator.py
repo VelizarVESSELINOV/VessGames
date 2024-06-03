@@ -8,17 +8,17 @@ def quiz_apps():
     return [
         {
             "code": "country_capital",
-            "image": "images/country_capital.jpeg",
+            "image": "images/country_capital.png",
             "description": "This is <b>country and territories capitals</b> quiz.",
         },
         {
             "code": "country_flag",
-            "image": "images/country_flag.jpeg",
+            "image": "images/country_flag.png",
             "description": "This is <b>country and territories flags</b> quiz.",
         },
         {
             "code": "europe_capital",
-            "image": "images/eu_capital.jpeg",
+            "image": "images/eu_capital.png",
             "description": "This is <b>European capitals</b> quiz.",
         },
         {
@@ -28,7 +28,7 @@ def quiz_apps():
         },
         {
             "code": "us_state_flag",
-            "image": "images/us_states_flag.jpeg",
+            "image": "images/us_states_flag.png",
             "description": "This is <b>US states capitals</b> flags.",
         },
     ]
