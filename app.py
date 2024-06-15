@@ -1,8 +1,11 @@
 from argparse import ArgumentParser
+from os import getenv
 from os.path import join
 from re import sub
 
-from colorlog import debug
+from authlib.integrations.flask_client import OAuth
+from colorlog import debug, info
+from dotenv import load_dotenv
 from flask import (
     Flask,
     redirect,
@@ -16,12 +19,55 @@ from flask import (
 from quiz_cmd import configure_logging
 from quiz_generator import quiz_apps, quiz_sample
 
+load_dotenv()
+
 APP = Flask(__name__)
-APP.secret_key = """km'@N:e[b+9;>:YY]C/H}$V5(vHR*Ar@JZfQW^]B@j@D:NC<G]O^2!$lyywX3wu"""
+# warning(f"SECRET_KEY: {getenv('SECRET_KEY')}")
+APP.secret_key = getenv("SECRET_KEY")
 APP.config["SESSION_TYPE"] = "memcached"
+
+
+# OAuth Configuration
+oauth = OAuth(APP)
+google = oauth.register(
+    name="google",
+    client_id=getenv("GOOGLE_CLIENT_ID"),
+    client_secret=getenv("GOOGLE_CLIENT_SECRET"),
+    access_token_url="https://accounts.google.com/o/oauth2/token",
+    access_token_params=None,
+    authorize_url="https://accounts.google.com/o/oauth2/auth",
+    authorize_params=None,
+    client_kwargs={"scope": "openid profile email"},
+    redirect_uri="http://127.0.0.1:5000/callback/google",
+)
+
+# GitHub OAuth Configuration
+github = oauth.register(
+    name="github",
+    client_id=getenv("GITHUB_CLIENT_ID"),
+    client_secret=getenv("GITHUB_CLIENT_SECRET"),
+    authorize_url="https://github.com/login/oauth/authorize",
+    authorize_params=None,
+    access_token_url="https://github.com/login/oauth/access_token",
+    access_token_params=None,
+    client_kwargs={"scope": "user:email"},
+    redirect_uri="http://127.0.0.1:5000/callback/github",
+)
 
 QUIZ_LIST = None
 BRAND_NAME = "VGameStore"
+
+
+@APP.route("/login/<provider>")
+def login(provider):
+    if provider == "google":
+        redirect_uri = url_for("callback", provider="google", _external=True)
+        return google.authorize_redirect(redirect_uri)
+    elif provider == "github":
+        redirect_uri = url_for("callback", provider="github", _external=True)
+        return github.authorize_redirect(redirect_uri)
+    else:
+        return "Provider not supported", 404
 
 
 @APP.route("/")
@@ -134,6 +180,30 @@ def favicon():
         "favicon.ico",
         mimetype="image/vnd.microsoft.icon",
     )
+
+
+@APP.route("/callback/<provider>")
+def callback(provider):
+    if provider == "google":
+        token = google.authorize_access_token()
+        userinfo = google.get("https://www.googleapis.com/oauth2/v2/userinfo").json()
+
+        info(f"User info: {userinfo} from {provider}")
+    elif provider == "github":
+        token = github.authorize_access_token()
+        userinfo = github.get("https://api.github.com/user").json()
+        info(f"User info: {userinfo} from {provider}")
+    else:
+        return "Provider not supported", 404
+
+    session["email"] = userinfo["email"] if "email" in userinfo else userinfo["login"]
+    return redirect("/")
+
+
+@APP.route("/logout")
+def logout():
+    session.pop("email", None)
+    return redirect("/")
 
 
 if __name__ == "__main__":
