@@ -120,7 +120,7 @@ def quiz(questions, answers, option):
         debug(QUIZ_LIST)
 
     if option == "country_capital":
-        quiz_name = "Countries capitals quiz"
+        quiz_name = "Countries and territories capitals quiz"
     elif option == "country_flag":
         quiz_name = "Countries flags quiz"
     elif option == "us_state_flag":
