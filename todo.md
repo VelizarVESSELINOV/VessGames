@@ -1,6 +1,6 @@
 # To do list
 
-1. Tailwind: result finish, improve nav, user
+1. Tailwind: result finish, improve nav, user, switch dark/auto
 1. Add Jeopardy quiz
 1. Random quiz mixing questions from flag/capitals country or state level
 1. Add unit testing
