@@ -7,34 +7,52 @@ from pandas import notnull, read_csv
 def quiz_apps():
     return [
         {
-            "code": "country_capital",
+            "ID": "country_capital",
             "image": "images/country_capital.png",
+            "name": "Countries and territories capitals quiz",
             "description": "This is <b>country and territories capitals</b> quiz.",
         },
         {
-            "code": "country_flag",
+            "ID": "country_flag",
             "image": "images/country_flag.png",
+            "name": "Countries and territories flags quiz",
             "description": "This is <b>country and territories flags</b> quiz.",
         },
         {
-            "code": "europe_capital",
+            "ID": "europe_capital",
             "image": "images/eu_capital.png",
+            "name": "European capitals quiz",
             "description": "This is <b>European capitals</b> quiz.",
         },
         {
-            "code": "us_state_capital",
+            "ID": "us_state_capital",
             "image": "images/us_states_capital.png",
+            "name": "US states capitals quiz",
             "description": "This is <b>US states capitals</b> quiz.",
         },
         {
-            "code": "us_state_flag",
+            "ID": "us_state_flag",
             "image": "images/us_states_flag.png",
+            "name": "US states flags quiz",
             "description": "This is <b>US states capitals</b> flags.",
         },
     ]
 
 
-def quiz_sample(questions=10, answers=4, option="country_capital"):
+def quiz_name_from_id(quiz_id):
+    quiz = quiz_apps()
+
+    quiz_name = "Unknown quiz"
+
+    quiz = [app["name"] for app in quiz if app["ID"] == quiz_id]
+
+    if len(quiz):
+        quiz_name = quiz[0]
+
+    return quiz_name
+
+
+def quiz_sample(questions=10, answers=4, quiz_id="country_capital"):
     """Load quiz table and select questions."""
     """
     questions = [
@@ -58,7 +76,7 @@ def quiz_sample(questions=10, answers=4, option="country_capital"):
 ]
     """
 
-    if option == "country_capital":
+    if quiz_id == "country_capital":
         file_name = "data/quiz_country.csv"
         source = "Name"
         target = "Capital"
@@ -66,7 +84,7 @@ def quiz_sample(questions=10, answers=4, option="country_capital"):
         image_path = "https://flagcdn.com/"
         image_extension = ".svg"
         filter = None
-    elif option == "country_flag":
+    elif quiz_id == "country_flag":
         file_name = "data/quiz_country.csv"
         source = "Name"
         target = "Name"
@@ -74,7 +92,7 @@ def quiz_sample(questions=10, answers=4, option="country_capital"):
         image_path = "https://flagcdn.com/"
         image_extension = ".svg"
         filter = None
-    elif option == "europe_capital":
+    elif quiz_id == "europe_capital":
         file_name = "data/quiz_country.csv"
         source = "Name"
         target = "Capital"
@@ -82,7 +100,7 @@ def quiz_sample(questions=10, answers=4, option="country_capital"):
         image_path = "https://flagcdn.com/"
         image_extension = ".svg"
         filter = {"Region": "Europe"}
-    elif option == "us_state_capital":
+    elif quiz_id == "us_state_capital":
         file_name = "data/quiz_us_state.csv"
         source = "Name"
         target = "Capital"
@@ -90,7 +108,7 @@ def quiz_sample(questions=10, answers=4, option="country_capital"):
         image_path = "https://flagcdn.com/w1600/us-"
         image_extension = ".png"
         filter = {"Type": "State"}
-    elif option == "us_state_flag":
+    elif quiz_id == "us_state_flag":
         file_name = "data/quiz_us_state.csv"
         source = "Name"
         target = "Name"
@@ -99,7 +117,7 @@ def quiz_sample(questions=10, answers=4, option="country_capital"):
         image_extension = ".png"
         filter = {"Type": "State"}
     else:
-        warning(f"Unknown option: {option}")
+        warning(f"Unknown quiz_id: {quiz_id}")
         return
 
     dtf = read_csv(file_name, keep_default_na=False, na_values="")
@@ -130,9 +148,9 @@ def quiz_sample(questions=10, answers=4, option="country_capital"):
 
         current_answers = [dtf.loc[row, target] for row in current_answers]
 
-        if "capital" in option:
+        if "capital" in quiz_id:
             question = f"{i + 1}/{questions}: What it is the capital of {dtf.loc[num, source]}?"
-        elif "flag" in option:
+        elif "flag" in quiz_id:
             question = f"{i + 1}/{questions}: What is source of this flag?"
 
         dic = {

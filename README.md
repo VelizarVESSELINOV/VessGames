@@ -18,7 +18,13 @@
     ```bash
     python3.12 app.py
     ```
-
+1. Compile output of tailwindcss
+    ```bash
+    npm install tailwindcss @tailwindcss/forms
+    npm install -D tailwindcss postcss autoprefixer
+    npx tailwindcss init
+    npx tailwindcss -i ./src/input.css -o ./static/css/output.css --minify
+    ```
 # Design
 
 1. [quiz_generator.py](quiz_generator.py) generates a data structure (list of dictionaries):

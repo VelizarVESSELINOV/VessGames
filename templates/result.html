@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="text-center">
-    <p class="text-slate-900 dark:text-white mt-5 text-2xl">Your score: {{ score }} / {{ questions|length }}</p>
-    <p class="text-slate-900 dark:text-white mt-5 text-xl">Percentage of correct answers:<p>
+    <!-- <p class="text-slate-900 dark:text-white mt-5 text-2xl">Your score: {{ score }} / {{ questions|length }}</p> -->
+    <p class="text-slate-900 dark:text-white mt-5 text-2xl">Percentage of correct answers:<p>
     <div class="relative size-40 m-auto">
         <svg class="size-full" width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
             <!-- Background Circle -->
@@ -18,12 +18,12 @@
         </div>
     </div>
 </div>
-<div class="container m-5">
-    <p class="text-slate-900 dark:text-white my-5 text-3xl">Wrong answers</p>
-    <div class="grid auto-rows-fr grid-cols-1 md:grid-cols-2 gap-4">
+<div class="m-5">  <!-- If container not more w-full working -->
+    <p class="text-slate-900 dark:text-white my-5 text-3xl">Wrong answers ({{ wrong_answers|length }})</p>
+    <div class="grid w-full grid-flow-col justify-stretch auto-cols-max auto-rows-fr grid-cols-1 md:grid-cols-2 gap-4 mx-auto px-auto">
         {% for wrong_answer in wrong_answers %}
         <div class="">
-            <div class="flex h-full bg-white border border-gray-200 rounded-lg md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+            <div class="flex h-full w-full bg-white border border-gray-200 rounded-lg md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                 <div class="flex-auto p-3">
                     <p class="card-title text-slate-900 dark:text-white text-xl">{{ wrong_answer.Question}}</p>
                     <div class="flex flex-col justify-between p-1 leading-normal align-top">

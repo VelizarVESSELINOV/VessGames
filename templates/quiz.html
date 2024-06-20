@@ -1,21 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container mx-5">
+<div class="m-5">  <!-- If container not more w-full working -->
     <p class="text-slate-900 dark:text-white my-5 text-3xl">{{ quiz_name }}</p>
     <form method="post">
-        <div class="grid auto-rows-fr grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid auto-cols-max auto-rows-fr grid-cols-1 md:grid-cols-2 gap-4">
             {% for i, question in enumerate(questions) %}
             <div class="">
                 <div class="flex h-full bg-white border border-gray-200 rounded-lg md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                     <div class="flex-auto p-3">
                         <p class="card-title text-slate-900 dark:text-white text-xl">{{ question.question | safe }}</p>
                         <div class="form-group flex flex-col justify-between p-1 leading-normal align-top">
-                            {% for option in question.options %}
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="question-{{ i }}"
-                                    id="question-{{ i }}-{{ option }}" value="{{ option }}" required>
-                                <label class="form-check-label text-slate-900 dark:text-white mt-5" for="question-{{ i }}-{{ option }}">
-                                    {{ option }}
+                            {% for quiz_id in question.options %}
+                            <div class="inline-flex items-center">
+                                <input class="text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" type="radio" name="question-{{ i }}"
+                                    id="question-{{ i }}-{{ quiz_id }}" value="{{ quiz_id }}" required>
+                                <label class="form-radio text-slate-900 dark:text-white" for="question-{{ i }}-{{ quiz_id }}">
+                                    {{ quiz_id }}
                                 </label>
                             </div>
                             {% endfor %}

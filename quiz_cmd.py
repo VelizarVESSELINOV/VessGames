@@ -7,10 +7,10 @@ from quiz_generator import quiz_sample
 
 
 def play_capital_quiz(
-    questions: int = 5, answers: int = 4, option: str = "country_capital"
+    questions: int = 5, answers: int = 4, quiz_id: str = "country_capital"
 ) -> None:
     """Play capital quiz."""
-    quiz_questions = quiz_sample(questions, answers, option)
+    quiz_questions = quiz_sample(questions, answers, quiz_id)
     score = 0
 
     for i, question_data in enumerate(quiz_questions):
@@ -87,17 +87,17 @@ def main() -> None:
     )
     parser.add_argument(
         "-o",
-        "--option",
+        "--quiz_id",
         type=str,
         default="country_capital",
-        help="Quiz option (e.g., country_capital, us_state_capital)",
+        help="Quiz quiz_id (e.g., country_capital, us_state_capital)",
     )
 
     args = parser.parse_args()
 
     configure_logging(args.verbose)
     play_capital_quiz(
-        questions=args.questions, answers=args.answers, option=args.option
+        questions=args.questions, answers=args.answers, quiz_id=args.quiz_id
     )
 
 

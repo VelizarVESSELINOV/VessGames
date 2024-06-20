@@ -17,7 +17,7 @@ from flask import (
 )
 
 from quiz_cmd import configure_logging
-from quiz_generator import quiz_apps, quiz_sample
+from quiz_generator import quiz_apps, quiz_name_from_id, quiz_sample
 
 load_dotenv()
 
@@ -78,16 +78,18 @@ def index():
 @APP.route(
     "/quiz",
     methods=["GET", "POST"],
-    defaults={"questions": 10, "answers": 4, "option": "country_capital"},
+    defaults={"questions": 10, "answers": 4, "quiz_id": "country_capital"},
 )
 @APP.route(
-    "/quiz/<option>", methods=["GET", "POST"], defaults={"questions": 10, "answers": 4}
+    "/quiz/<quiz_id>", methods=["GET", "POST"], defaults={"questions": 10, "answers": 4}
 )
-def quiz(questions, answers, option):
+def quiz(questions, answers, quiz_id):
     global QUIZ_LIST
 
     # if QUIZ_LIST is None:
-    #     QUIZ_LIST = quiz_sample(questions, answers, option)
+    #     QUIZ_LIST = quiz_sample(questions, answers, quiz_id)
+
+    quiz_name = quiz_name_from_id(quiz_id)
 
     if request.method == "POST":
         score = 0
@@ -110,25 +112,16 @@ def quiz(questions, answers, option):
                 )
 
         session["score"] = score
+        session["quiz_options"] = quiz_id
+        session["quiz_name"] = quiz_name
+        session["quiz_questions"] = questions
+        session["quiz_answers"] = answers
         session["wrong_answers"] = wrong_answers
         debug(f"wrong_answers: {wrong_answers}")
         return redirect(url_for("result"))
     else:
-        QUIZ_LIST = quiz_sample(questions, answers, option)
+        QUIZ_LIST = quiz_sample(questions, answers, quiz_id)
         debug(QUIZ_LIST)
-
-    if option == "country_capital":
-        quiz_name = "Countries and territories capitals quiz"
-    elif option == "country_flag":
-        quiz_name = "Countries flags quiz"
-    elif option == "us_state_flag":
-        quiz_name = "US states flags quiz"
-    elif option == "us_state_capital":
-        quiz_name = "US states capitals quiz"
-    elif option == "europe_capital":
-        quiz_name = "European capitals quiz"
-    else:
-        quiz_name = "Unknown quiz"
 
     # Convert the question text to HTML with bold around location name
     html_quiz_list = [
