@@ -92,7 +92,6 @@ def quiz(questions, answers, option):
     if request.method == "POST":
         score = 0
         wrong_answers = []
-        wrong_count = 1
 
         for i, question in enumerate(QUIZ_LIST):
             selected_option = request.form.get(f"question-{i}")
@@ -102,14 +101,13 @@ def quiz(questions, answers, option):
                 score += 1
             else:
                 wrong_answers.append(
-                    f"""<p>{wrong_count}. Question: {question['question']}</p><p class="text-danger">Wrong answer: {selected_option}</p><p class="text-success">Correct answer: {question['answer']}</p>"""
-                    + '<img src="'
-                    + question["image"]
-                    + '" class="img-fluid rounded float-md-end mb-3 ms-md-3" height="250" width="200" />'
-                    if "image" in question
-                    else ""
+                    {
+                        "Question": question["question"],
+                        "Wrong": selected_option,
+                        "Correct": question["answer"],
+                        "Image": question["image"] if "image" in question else None,
+                    }
                 )
-                wrong_count += 1
 
         session["score"] = score
         session["wrong_answers"] = wrong_answers
