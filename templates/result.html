@@ -37,7 +37,7 @@
                 </div>
                 <div class="align-left">
                 {% if wrong_answer.Image |length > 10 %}
-                    <img src="{{ wrong_answer.Image | safe }}" class="rounded-r-lg" alt="{{ wrong_answer.Image | safe }}"
+                    <img src="{{ wrong_answer.Image | safe }}" class="rounded-r-lg hover:scale-105" alt="{{ wrong_answer.Image | safe }}"
                         height="250" width="300">
                 {% else %}
                     <div>

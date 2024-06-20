@@ -12,9 +12,9 @@
                         <div class="form-group flex flex-col justify-between p-1 leading-normal align-top">
                             {% for quiz_id in question.options %}
                             <div class="inline-flex items-center">
-                                <input class="text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" type="radio" name="question-{{ i }}"
+                                <input class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" type="radio" name="question-{{ i }}"
                                     id="question-{{ i }}-{{ quiz_id }}" value="{{ quiz_id }}" required>
-                                <label class="form-radio text-slate-900 dark:text-white" for="question-{{ i }}-{{ quiz_id }}">
+                                <label class="ms-2 font-medium form-radio text-slate-900 dark:text-white" for="question-{{ i }}-{{ quiz_id }}">
                                     {{ quiz_id }}
                                 </label>
                             </div>
@@ -23,7 +23,7 @@
                     </div>
                     <div class="align-left">
                     {% if question.image |length > 10 %}
-                        <img src="{{ question.image | safe }}" class="rounded-r-lg" alt="{{ question.image | safe }}"
+                        <img src="{{ question.image | safe }}" class="rounded-r-lg hover:scale-105" alt="{{ question.image | safe }}"
                             height="250" width="300">
                     {% else %}
                         <div>
