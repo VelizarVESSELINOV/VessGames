@@ -55,7 +55,7 @@ github = oauth.register(
 )
 
 QUIZ_LIST = None
-BRAND_NAME = "VGameStore"
+BRAND_NAME = "VGame Store"
 
 
 @APP.route("/login/<provider>")
@@ -134,12 +134,29 @@ def quiz(questions, answers, quiz_id):
         for d in QUIZ_LIST
     ]
 
+    # for d in html_quiz_list:
+    #     print(f"Before: {d['question']}")
+    #     print(f"After: {sub(r"^(\d+\/\d+)\. (.*)$", r"[\1] [\2]", d["question"])}")
+
+    # Add pill to the question number
+    html_quiz_list = [
+        {
+            **d,
+            "question": sub(
+                r"^(\d+\/\d+)\. (.*)$",
+                r"""<span class="text-white bg-blue-700 me-2 px-2.5 py-0.5 rounded-full">\1</span>\2""",
+                d["question"],
+            ),
+        }
+        for d in html_quiz_list
+    ]
+
     html_quiz_list = [
         {
             **d,
             "image": d["image"] if "image" in d else "",
         }
-        for d in QUIZ_LIST
+        for d in html_quiz_list
     ]
 
     # https://flagcdn.com/h20/ua.png
@@ -164,6 +181,17 @@ def result():
     )
 
 
+@APP.route("/about")
+def about():
+    return render_template("about.html", brand_name=BRAND_NAME)
+
+
+@APP.route("/user")
+def user():
+    print("user")
+    return render_template("user.html", brand_name=BRAND_NAME)
+
+
 @APP.route("/favicon.ico")
 def favicon():
     return send_from_directory(
@@ -184,6 +212,11 @@ def callback(provider):
         token = github.authorize_access_token()
         userinfo = github.get("https://api.github.com/user").json()
         info(f"User info: {userinfo} from {provider}")
+        session["user"] = userinfo["login"]
+        session["user_source"] = "GitHub"
+        session["user_name"] = userinfo["name"]
+        session["user_image"] = userinfo["avatar_url"]
+        session["user_location"] = userinfo["location"]
     else:
         return "Provider not supported", 404
 
@@ -194,6 +227,11 @@ def callback(provider):
 @APP.route("/logout")
 def logout():
     session.pop("email", None)
+    session.pop("user", None)
+    session.pop("user_source", None)
+    session.pop("user_name", None)
+    session.pop("user_image", None)
+    session.pop("user_location", None)
     return redirect("/")
 
 

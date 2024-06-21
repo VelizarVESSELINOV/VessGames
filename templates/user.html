@@ -1,0 +1,9 @@
+{% extends 'navbar.html' %}
+{% block content %}
+<div class="bg-white p-6 rounded-lg shadow-lg">
+    <img src="{{ session['user_image'] }}" alt="{{ session['user_name'] }}" class="w-24 h-24 rounded-full mx-auto">
+    <h2 class="text-xl font-bold text-center mt-4">{{ session['user_name'] }}</h2>
+    <p class="text-center text-gray-600">{{ session['user_location'] }}</p>
+    <a href="{{ url_for('logout') }}" class="text-blue-500 hover:text-blue-700">Log out </a>
+</div>
+{% endblock %}

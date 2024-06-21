@@ -149,9 +149,9 @@ def quiz_sample(questions=10, answers=4, quiz_id="country_capital"):
         current_answers = [dtf.loc[row, target] for row in current_answers]
 
         if "capital" in quiz_id:
-            question = f"{i + 1}/{questions}: What it is the capital of {dtf.loc[num, source]}?"
+            question = f"{i + 1}/{questions}. What it is the capital of {dtf.loc[num, source]}?"
         elif "flag" in quiz_id:
-            question = f"{i + 1}/{questions}: What is source of this flag?"
+            question = f"{i + 1}/{questions}. What is source of this flag?"
 
         dic = {
             "question": question,

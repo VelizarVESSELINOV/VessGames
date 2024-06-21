@@ -1,9 +1,10 @@
-{% extends 'base.html' %}
+{% set current_page = 'home' %}
+{% extends 'navbar.html' %}
 {% block content %}
 <main>
     <header class="bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
-        <p class="text-slate-900 dark:text-white mt-5 text-xl">{{ brand_name }}</p>
         <p class="text-slate-500 dark:text-slate-400 m-2">Store for online games starting with quizzes.</p>
+        {% if not session['user'] %}
         <p>
             <a href="/login/google" type="button" class="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 me-2 mb-2 border border-gray-200">
                 <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 19">
@@ -18,6 +19,7 @@
                 Sign in with Github
             </a>
         </p>
+        {% endif %}
     </header>
 
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-4 gap-4 m-4">
@@ -32,7 +34,7 @@
                         <h2 class="mb-2font-bold tracking-tight text-gray-900 dark:text-white">{{ app.description | safe }}</h2>
                     </a>
                     <p class="flex-auto mb-3 font-normal text-gray-700 dark:text-gray-400">&nbsp;</p>
-                    <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center" onclick="window.location.href='{{ url_for('quiz', quiz_id=app.ID) }}'">
+                    <a href="{{ url_for('quiz', quiz_id=app.ID) }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center">
                         Start
                     </a>
                 </div>
@@ -40,8 +42,5 @@
         </div>
         {% endfor %}
     </div>
-
 </main>
-
-</html>
 {% endblock %}
