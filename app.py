@@ -18,6 +18,7 @@ from flask import (
 
 from quiz_cmd import configure_logging
 from quiz_generator import quiz_apps, quiz_name_from_id, quiz_sample
+from sql.db_connect import db_connect
 
 load_dotenv()
 
@@ -25,6 +26,8 @@ APP = Flask(__name__)
 # warning(f"SECRET_KEY: {getenv('SECRET_KEY')}")
 APP.secret_key = getenv("SECRET_KEY")
 APP.config["SESSION_TYPE"] = "memcached"
+
+CURR = db_connect()
 
 
 # OAuth Configuration
@@ -86,9 +89,6 @@ def index():
 def quiz(questions, answers, quiz_id):
     global QUIZ_LIST
 
-    # if QUIZ_LIST is None:
-    #     QUIZ_LIST = quiz_sample(questions, answers, quiz_id)
-
     quiz_name = quiz_name_from_id(quiz_id)
 
     if request.method == "POST":
@@ -134,17 +134,12 @@ def quiz(questions, answers, quiz_id):
         for d in QUIZ_LIST
     ]
 
-    # for d in html_quiz_list:
-    #     print(f"Before: {d['question']}")
-    #     print(f"After: {sub(r"^(\d+\/\d+)\. (.*)$", r"[\1] [\2]", d["question"])}")
-
-    # Add pill to the question number
     html_quiz_list = [
         {
             **d,
             "question": sub(
                 r"^(\d+\/\d+)\. (.*)$",
-                r"""<span class="text-white bg-blue-700 me-2 px-2.5 py-0.5 rounded-full">\1</span>\2""",
+                r"""<span class="text-white bg-blue-600 me-2 px-2.5 py-0.5 rounded-full">\1</span>\2""",
                 d["question"],
             ),
         }
@@ -214,11 +209,43 @@ def callback(provider):
         info(f"User info: {userinfo} from {provider}")
         session["user"] = userinfo["login"]
         session["user_source"] = "GitHub"
-        session["user_name"] = userinfo["name"]
+        session["user_nick_name"] = userinfo["name"]
+
+        if " " in userinfo["name"]:
+            session["user_first_name"] = userinfo["name"].split(" ")[0]
+            session["user_last_name"] = userinfo["name"].split(" ")[1]
+        else:
+            session["user_first_name"] = None
+            session["user_last_name"] = None
+
         session["user_image"] = userinfo["avatar_url"]
         session["user_location"] = userinfo["location"]
     else:
         return "Provider not supported", 404
+
+    # check if user exists
+    CURR.execute(
+        "SELECT * FROM vstore.user WHERE user_id = %s AND user_source = %s",
+        (session["user"], session["user_source"]),
+    )
+
+    if not CURR.fetchone():
+        # create user
+        debug("Creating user")
+        CURR.execute(
+            """INSERT INTO vstore.user (user_id, user_source,
+                nick_name, first_name, last_name, image, location)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+            (
+                session["user"],
+                session["user_source"],
+                session["user_nick_name"],
+                session["user_first_name"],
+                session["user_last_name"],
+                session["user_image"],
+                session["user_location"],
+            ),
+        )
 
     session["email"] = userinfo["email"] if "email" in userinfo else userinfo["login"]
     return redirect("/")

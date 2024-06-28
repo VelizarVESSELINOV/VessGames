@@ -12,3 +12,5 @@ colorama==0.4.6
 colorlog==6.8.2
 python-dotenv==1.0.1
 
+# database
+psycopg2-binary==2.9.9
