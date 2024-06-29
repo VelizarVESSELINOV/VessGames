@@ -1,6 +1,8 @@
 # To do list
 
 1. Add possibility to edit user info
+1. Save and load preferences
+1. Move SQL code from UI and focus on DB file
 1. Detect automatically the country, region
 1. Add session tracking
 1. Add game tracking
