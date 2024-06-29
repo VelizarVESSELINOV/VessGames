@@ -1,41 +1,66 @@
-{% set current_page = 'home' %}
-{% extends 'navbar.html' %}
-{% block content %}
-<div class="m-5">  <!-- If container not more w-full working -->
-    <p class="text-slate-900 dark:text-white my-5 text-3xl">{{ quiz_name }}</p>
-    <form method="post">
-        <div class="grid auto-cols-max auto-rows-fr grid-cols-1 md:grid-cols-2 gap-4">
-            {% for i, question in enumerate(questions) %}
-            <div class="">
-                <div class="flex h-full bg-white border border-gray-200 rounded-lg md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                    <div class="flex-auto p-3">
-                        <p class="card-title text-slate-900 dark:text-white text-xl">{{ question.question | safe }}</p>
-                        <div class="form-group flex flex-col justify-between p-1 leading-normal align-top">
-                            {% for quiz_id in question.options %}
-                            <div class="inline-flex items-center">
-                                <input class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" type="radio" name="question-{{ i }}"
-                                    id="question-{{ i }}-{{ quiz_id }}" value="{{ quiz_id }}" required>
-                                <label class="ms-2 font-medium form-radio text-slate-900 dark:text-white" for="question-{{ i }}-{{ quiz_id }}">
-                                    {{ quiz_id }}
-                                </label>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="align-left">
-                    {% if question.image |length > 10 %}
-                        <img src="{{ question.image | safe }}" class="rounded-r-lg hover:scale-105" alt="{{ question.image | safe }}"
-                            height="250" width="300">
-                    {% else %}
-                        <div>
-                        </div>
-                    {% endif %}
-                    </div>
-                </div>
+{% set current_page = 'home' %} {% extends 'navbar.html' %} {% block content %}
+<div class="m-5">
+  <!-- If container not more w-full working -->
+  <p class="my-5 text-3xl text-slate-900 dark:text-white">{{ quiz_name }}</p>
+  <form method="post">
+    <div
+      class="grid auto-cols-max auto-rows-fr grid-cols-1 gap-4 md:grid-cols-2"
+    >
+      {% for i, question in enumerate(questions) %}
+      <div class="">
+        <div
+          class="flex h-full rounded-lg border border-gray-200 bg-white hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 md:flex-row"
+        >
+          <div class="flex-auto p-3">
+            <p class="card-title text-xl text-slate-900 dark:text-white">
+              {{ question.question | safe }}
+            </p>
+            <div
+              class="form-group flex flex-col justify-between p-1 align-top leading-normal"
+            >
+              {% for quiz_id in question.options %}
+              <div class="inline-flex items-center">
+                <input
+                  class="h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                  id="question-{{ i }}-{{ quiz_id }}"
+                  type="radio"
+                  name="question-{{ i }}"
+                  value="{{ quiz_id }}"
+                  required
+                />
+                <label
+                  class="form-radio ms-2 font-medium text-slate-900 dark:text-white"
+                  for="question-{{ i }}-{{ quiz_id }}"
+                >
+                  {{ quiz_id }}
+                </label>
+              </div>
+              {% endfor %}
             </div>
-            {% endfor %}
+          </div>
+          <div class="align-left">
+            {% if question.image |length > 10 %}
+            <img
+              class="rounded-r-lg hover:scale-105"
+              src="{{ question.image | safe }}"
+              alt="{{ question.image | safe }}"
+              height="250"
+              width="300"
+            />
+            {% else %}
+            <div></div>
+            {% endif %}
+          </div>
         </div>
-        <button type="submit" class="text-white bg-blue-600 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg px-5 py-2.5 inline-flex justify-center text-center mt-5">Submit</button>
-    </form>
+      </div>
+      {% endfor %}
+    </div>
+    <button
+      class="mt-5 inline-flex justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-center font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900"
+      type="submit"
+    >
+      Submit
+    </button>
+  </form>
 </div>
 {% endblock %}

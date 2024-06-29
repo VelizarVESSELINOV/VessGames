@@ -12,7 +12,7 @@
 1. Add per region country per continent quiz
 1. Add user tracking and ranking
 1. Setup online access
-    1. Database PostgreSQL?
-    1. gmail login?
-    1. Host the VM
-    1. Database backup
+   1. Database PostgreSQL?
+   1. gmail login?
+   1. Host the VM
+   1. Database backup

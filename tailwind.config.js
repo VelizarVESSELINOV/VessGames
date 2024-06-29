@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class",
   content: [
     "./src/**/*.{html,js}",
     "./templates/*.{html,js}",
@@ -24,6 +25,5 @@ module.exports = {
       },
     },
   },
-  darkMode: "selector",
   plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],
 };

@@ -1,91 +1,150 @@
-{% set current_page = 'home' %}
-{% extends 'navbar.html' %}
-{% block content %}
+{% set current_page = 'home' %} {% extends 'navbar.html' %} {% block content %}
 <div class="text-center">
-    <!-- <p class="text-slate-900 dark:text-white mt-5 text-2xl">Your score: {{ score }} / {{ questions|length }}</p> -->
-    <p class="text-slate-900 dark:text-white mt-5 text-2xl">Percentage of correct answers:<p>
-    <div class="relative size-40 m-auto">
-        <svg class="size-full" width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-            <!-- Background Circle -->
-            <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-red-700" stroke-width="2"></circle>
-            <!-- Progress Circle inside a group with rotation -->
-            <g class="origin-center -rotate-90 transform">
-                <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-green-500" stroke-width="2" stroke-dasharray="100" stroke-dashoffset="{{ 100 - score / questions | length * 100 }}"></circle>
-            </g>
-        </svg>
-        <!-- Percentage Text -->
-        <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
-            <span class="text-center text-2xl font-bold text-gray-800 dark:text-white">{{ score / questions | length * 100 }}%</span>
-        </div>
+  <!-- <p class="text-slate-900 dark:text-white mt-5 text-2xl">Your score: {{ score }} / {{ questions|length }}</p> -->
+  <p class="mt-5 text-2xl text-slate-900 dark:text-white">
+    Percentage of correct answers:
+  </p>
+  <p></p>
+  <div class="relative m-auto size-40">
+    <svg
+      class="size-full"
+      width="36"
+      height="36"
+      viewBox="0 0 36 36"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <!-- Background Circle -->
+      <circle
+        class="stroke-current text-red-700"
+        cx="18"
+        cy="18"
+        r="16"
+        fill="none"
+        stroke-width="2"
+      ></circle>
+      <!-- Progress Circle inside a group with rotation -->
+      <g class="origin-center -rotate-90 transform">
+        <circle
+          class="stroke-current text-green-500"
+          cx="18"
+          cy="18"
+          r="16"
+          fill="none"
+          stroke-width="2"
+          stroke-dasharray="100"
+          stroke-dashoffset="{{ 100 - score / questions | length * 100 }}"
+        ></circle>
+      </g>
+    </svg>
+    <!-- Percentage Text -->
+    <div
+      class="absolute start-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
+    >
+      <span class="text-center text-2xl font-bold text-gray-800 dark:text-white"
+        >{{ score / questions | length * 100 }}%</span
+      >
     </div>
+  </div>
 </div>
-<div class="m-5">  <!-- If container not more w-full working -->
-    <p class="text-slate-900 dark:text-white my-5 text-3xl">Wrong answers ({{ wrong_answers|length }})</p>
-    <div class="grid w-full grid-flow-col justify-stretch auto-cols-max auto-rows-fr grid-cols-1 md:grid-cols-2 gap-4 mx-auto px-auto">
-        {% for wrong_answer in wrong_answers %}
-        <div class="">
-            <div class="flex h-full w-full bg-white border border-gray-200 rounded-lg md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                <div class="flex-auto p-3">
-                    <p class="card-title text-slate-900 dark:text-white text-xl">{{ wrong_answer.Question}}</p>
-                    <div class="flex flex-col justify-between p-1 leading-normal align-top">
-                        <p class="text-green-500 text-xl mt-5">
-                            Correct answer: <b>{{ wrong_answer.Correct }}</b>
-                        </p>
-                        <p class="text-red-700 text-xl mt-5">
-                            Wrong answer: <b>{{ wrong_answer.Wrong }}</b>
-                        </p>
-                    </div>
-                </div>
-                <div class="align-left">
-                {% if wrong_answer.Image |length > 10 %}
-                    <img src="{{ wrong_answer.Image | safe }}" class="rounded-r-lg hover:scale-105" alt="{{ wrong_answer.Image | safe }}"
-                        height="250" width="300">
-                {% else %}
-                    <div>
-                    </div>
-                {% endif %}
-                </div>
-            </div>
+<div class="m-5">
+  <!-- If container not more w-full working -->
+  <p class="my-5 text-3xl text-slate-900 dark:text-white">
+    Wrong answers ({{ wrong_answers|length }})
+  </p>
+  <div
+    class="px-auto mx-auto grid w-full auto-cols-max grid-flow-col auto-rows-fr grid-cols-1 justify-stretch gap-4 md:grid-cols-2"
+  >
+    {% for wrong_answer in wrong_answers %}
+    <div class="">
+      <div
+        class="flex h-full w-full rounded-lg border border-gray-200 bg-white hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 md:flex-row"
+      >
+        <div class="flex-auto p-3">
+          <p class="card-title text-xl text-slate-900 dark:text-white">
+            {{ wrong_answer.Question}}
+          </p>
+          <div
+            class="flex flex-col justify-between p-1 align-top leading-normal"
+          >
+            <p class="mt-5 text-xl text-green-500">
+              Correct answer: <b>{{ wrong_answer.Correct }}</b>
+            </p>
+            <p class="mt-5 text-xl text-red-700">
+              Wrong answer: <b>{{ wrong_answer.Wrong }}</b>
+            </p>
+          </div>
         </div>
-        {% endfor %}
+        <div class="align-left">
+          {% if wrong_answer.Image |length > 10 %}
+          <img
+            class="rounded-r-lg hover:scale-105"
+            src="{{ wrong_answer.Image | safe }}"
+            alt="{{ wrong_answer.Image | safe }}"
+            height="250"
+            width="300"
+          />
+          {% else %}
+          <div></div>
+          {% endif %}
+        </div>
+      </div>
     </div>
+    {% endfor %}
+  </div>
 </div>
-<br>
+<br />
 <div class="text-center">
-    <a class="text-white bg-blue-600 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg px-5 py-2.5 inline-flex justify-center text-center mt-5" href="{{ url_for('quiz') }}">Retake quiz</a>
+  <a
+    class="mt-5 inline-flex justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-center font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900"
+    href="{{ url_for('quiz') }}"
+    >Retake quiz</a
+  >
 </div>
 <script>
-    // this page is a demo that is not built, so fudge the module.exports support
-    // define a global `module` so that the actual source file can use it
-    window.module = {};
+  // this page is a demo that is not built, so fudge the module.exports support
+  // define a global `module` so that the actual source file can use it
+  window.module = {};
 </script>
-<script type="text/javascript" src="{{ url_for('static', filename='js/confetti.js') }}"></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/confetti.js') }}"
+></script>
 <script>
-    // define the `module.exports` as the `confetti` global, the way that the
-    // cdn distributed file would
-    window.confetti = module.exports;
+  // define the `module.exports` as the `confetti` global, the way that the
+  // cdn distributed file would
+  window.confetti = module.exports;
 </script>
 <script>
-    // Fireworks
-    let duration = 15 * 1000;
-    let animationEnd = Date.now() + duration;
-    let defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+  // Fireworks
+  let duration = 15 * 1000;
+  let animationEnd = Date.now() + duration;
+  let defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
-    function randomInRange(min, max) {
-      return Math.random() * (max - min) + min;
+  function randomInRange(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  let interval = setInterval(function () {
+    let timeLeft = animationEnd - Date.now();
+
+    if (timeLeft <= 0) {
+      return clearInterval(interval);
     }
 
-    let interval = setInterval(function() {
-      let timeLeft = animationEnd - Date.now();
-
-      if (timeLeft <= 0) {
-        return clearInterval(interval);
-      }
-
-      let particleCount = 50 * (timeLeft / duration);
-      // since particles fall down, start a bit higher than random
-      confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-      confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-    }, 250);
+    let particleCount = 50 * (timeLeft / duration);
+    // since particles fall down, start a bit higher than random
+    confetti(
+      Object.assign({}, defaults, {
+        particleCount,
+        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+      }),
+    );
+    confetti(
+      Object.assign({}, defaults, {
+        particleCount,
+        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+      }),
+    );
+  }, 250);
 </script>
 {% endblock %}
