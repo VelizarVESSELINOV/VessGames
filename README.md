@@ -22,6 +22,7 @@
    ```bash
    npm install -D tailwindcss @tailwindcss/forms @tailwindcss/typography postcss autoprefixer prettier prettier-plugin-organize-attributes prettier-plugin-organize-imports prettier-plugin-tailwindcs
    npx tailwindcss init
+   npx prettier . --write
    npx tailwindcss -i ./src/input.css -o ./static/css/output.css --minify
    ```
 
