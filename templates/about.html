@@ -1,10 +1,10 @@
-{% set current_page = 'about' %}
-{% extends 'navbar.html' %}
-{% block content %}
+{% set current_page = 'about' %} {% extends 'navbar.html' %} {% block content %}
 <main>
-    <article class="prose max-w-none lg:prose-xl bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
-        <h2 class="text-slate-500 dark:text-white m-2">Mission statement</h1>
-        <h2 class="text-slate-500 dark:text-white m-2">Contact</h2  >
-    </article>
+  <article
+    class="prose max-w-none rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 lg:prose-xl dark:bg-slate-800"
+  >
+    <h2 class="m-2 text-slate-500 dark:text-white">Mission statement</h2>
+    <h2 class="m-2 text-slate-500 dark:text-white">Contact</h2>
+  </article>
 </main>
 {% endblock %}
