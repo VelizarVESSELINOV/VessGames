@@ -44,16 +44,41 @@
   <body class="bg-white dark:bg-black">
     {% block navbar_content %}{% endblock %} {% block content %}{% endblock %}
     {% block script_content %}{% endblock %}
+    <script>
+      // Function to initialize dark mode based on system and user preference
+      function initializeDarkMode() {
+        const userPreference = localStorage.getItem('theme');
+        const systemPreference = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        // console.log('User Preference:', userPreference);
+        // console.log('System Preference:', systemPreference);
+
+        if (userPreference) {
+          document.documentElement.classList.toggle('dark', userPreference === 'dark');
+          // console.log('Applying user preference:', userPreference === 'dark' ? 'dark' : 'light');
+        } else {
+          document.documentElement.classList.toggle('dark', systemPreference);
+          // console.log('Applying system preference:', systemPreference ? 'dark' : 'light');
+        }
+      }
+
+      // Function to toggle dark mode and save user preference
+      function toggleDarkMode() {
+        const isDarkMode = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        // console.log('Toggled dark mode:', isDarkMode ? 'dark' : 'light');
+      }
+
+      // Initialize dark mode on page load
+      initializeDarkMode();
+
+      // Listen for changes in system dark mode preference
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('theme')) {
+          document.documentElement.classList.toggle('dark', e.matches);
+          // console.log('System preference changed:', e.matches ? 'dark' : 'light');
+        }
+      });
+    </script>
   </body>
-  <script>
-    if (
-      localStorage.getItem("dark-mode") === "true" ||
-      (!("dark-mode" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
-      document.querySelector("html").classList.add("dark");
-    } else {
-      document.querySelector("html").classList.remove("dark");
-    }
-  </script>
 </html>
