@@ -34,12 +34,12 @@
         >About</a
       >
     </div>
-    {% if session['user'] %}
+    {% if session['user_id'] %}
     <div
       class="flex items-center space-x-3 md:order-2 md:space-x-0 rtl:space-x-reverse"
     >
       <a
-        class="darlk:bg-gray-800 flex rounded-full bg-gray-400 dark:bg-gray-700 text-sm transition duration-100 ease-in-out hover:scale-110 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 md:me-0"
+        class="darlk:bg-gray-800 flex rounded-full bg-gray-400 text-sm transition duration-100 ease-in-out hover:scale-110 focus:ring-4 focus:ring-gray-300 dark:bg-gray-700 dark:focus:ring-gray-600 md:me-0"
         type="button"
         href="{{ url_for('user') }}"
       >

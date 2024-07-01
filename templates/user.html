@@ -1,7 +1,7 @@
 {% extends 'navbar.html' %} {% block content %}
 <div class="bg-white p-6 text-center shadow-lg dark:bg-slate-800">
   <img
-    class="m-5 mx-auto h-32 w-32 rounded-full ring-4 ring-gray-300 transition duration-100 ease-in-out hover:scale-110 dark:ring-gray-500 bg-gray-400 dark:bg-gray-700"
+    class="m-5 mx-auto h-32 w-32 rounded-full bg-gray-400 ring-4 ring-gray-300 transition duration-100 ease-in-out hover:scale-110 dark:bg-gray-700 dark:ring-gray-500"
     src="{{ session['user_image'] }}"
     alt="{{ session['user_nick_name'] }}"
   />

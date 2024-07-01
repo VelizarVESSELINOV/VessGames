@@ -18,12 +18,12 @@
    ```bash
    python3.12 app.py
    ```
-1. Compile output of tailwindcss
+1. Install tailwindcss
    ```bash
    npm install -D tailwindcss @tailwindcss/forms @tailwindcss/typography postcss autoprefixer prettier prettier-plugin-organize-attributes prettier-plugin-organize-imports prettier-plugin-tailwindcs
    npx tailwindcss init
-   npx prettier . --write
-   npx tailwindcss -i ./src/input.css -o ./static/css/output.css --minify
+   npx prettier . --write # added as a task
+   npx tailwindcss -i ./src/input.css -o ./static/css/output.css --minify --watch # added as a task
    ```
 
 # Design

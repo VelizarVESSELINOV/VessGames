@@ -6,7 +6,7 @@
     <p class="m-2 text-slate-600 dark:text-white">
       Store for online games starting with quizzes.
     </p>
-    {% if not session['user'] %}
+    {% if not session['user_id'] %}
     <p>
       <a
         class="mb-2 me-2 inline-flex items-center rounded-lg border border-gray-200 bg-[#4285F4] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#4285F4]/90 focus:outline-none focus:ring-4 focus:ring-[#4285F4]/50 dark:focus:ring-[#4285F4]/55"

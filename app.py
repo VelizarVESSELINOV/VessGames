@@ -18,7 +18,7 @@ from flask import (
 
 from quiz_cmd import configure_logging
 from quiz_generator import quiz_apps, quiz_name_from_id, quiz_sample
-from sql.db_connect import db_connect
+from sql.db_action import add_user_if_not_exists, end_session, start_session
 
 load_dotenv()
 
@@ -26,8 +26,6 @@ APP = Flask(__name__)
 # warning(f"SECRET_KEY: {getenv('SECRET_KEY')}")
 APP.secret_key = getenv("SECRET_KEY")
 APP.config["SESSION_TYPE"] = "memcached"
-
-CURR = db_connect()
 
 
 # OAuth Configuration
@@ -75,6 +73,7 @@ def login(provider):
 
 @APP.route("/")
 def index():
+    # session.clear()
     return render_template("index.html", brand_name=BRAND_NAME, apps=quiz_apps())
 
 
@@ -207,7 +206,7 @@ def callback(provider):
         token = github.authorize_access_token()
         userinfo = github.get("https://api.github.com/user").json()
         info(f"User info: {userinfo} from {provider}")
-        session["user"] = userinfo["login"]
+        session["user_id"] = userinfo["login"]
         session["user_source"] = "GitHub"
         session["user_nick_name"] = userinfo["name"]
 
@@ -223,29 +222,8 @@ def callback(provider):
     else:
         return "Provider not supported", 404
 
-    # check if user exists
-    CURR.execute(
-        "SELECT * FROM vstore.user WHERE user_id = %s AND user_source = %s",
-        (session["user"], session["user_source"]),
-    )
-
-    if not CURR.fetchone():
-        # create user
-        debug("Creating user")
-        CURR.execute(
-            """INSERT INTO vstore.user (user_id, user_source,
-                nick_name, first_name, last_name, image, location)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)""",
-            (
-                session["user"],
-                session["user_source"],
-                session["user_nick_name"],
-                session["user_first_name"],
-                session["user_last_name"],
-                session["user_image"],
-                session["user_location"],
-            ),
-        )
+    add_user_if_not_exists(session)
+    session["session_start"] = start_session(session["user_id"], session["user_source"])
 
     session["email"] = userinfo["email"] if "email" in userinfo else userinfo["login"]
     return redirect("/")
@@ -253,8 +231,13 @@ def callback(provider):
 
 @APP.route("/logout")
 def logout():
+    if "user_id" in session:
+        end_session(
+            session["user_id"], session["user_source"], session["session_start"]
+        )
+
     session.pop("email", None)
-    session.pop("user", None)
+    session.pop("user_id", None)
     session.pop("user_source", None)
     session.pop("user_name", None)
     session.pop("user_image", None)
