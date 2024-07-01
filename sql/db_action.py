@@ -1,6 +1,9 @@
 from datetime import UTC, datetime
 
+from colorlog import debug
+
 from sql.db_connect import db_connect
+
 
 CURR = db_connect()
 
@@ -50,26 +53,26 @@ def start_session(user_id, user_source):
     """
 
     # Get the current time
-    start = datetime.now(UTC)
+    start = datetime.now(UTC).isoformat()
+
+    sql = f"""INSERT INTO vstore.session (user_id, user_source, login)
+VALUES ('{user_id}', '{user_source}', '{start}')"""
+
+    debug(f"Start session SQL: {sql}")
 
     # Create session in the database
-    CURR.execute(
-        # SQL query to insert a new session
-        "INSERT INTO vstore.session (user_id, user_source, login) VALUES (%s, %s, %s)",
-        # Values to insert into the session table
-        (user_id, user_source, start),
-    )
+    CURR.execute(sql)
 
     # Return the start time of the session
     return start
 
 
-def end_session(user_id, user_source, start):
+def end_session(user_id, user_source, login):
     """
     Args:
         user_id (str): The ID of the user.
         user_source (str): The source of the user (e.g., Google).
-        start (datetime): The start time of the session.
+        login (datetime): The start time of the session.
 
     Returns:
         datetime: The end time of the session.
@@ -79,14 +82,21 @@ def end_session(user_id, user_source, start):
     """
 
     # Get the current time
-    end = datetime.now(UTC)
+    logout = datetime.now(UTC).isoformat()
+
+    sql = f"""UPDATE vstore.session
+SET logout = '{logout}'
+WHERE user_id = '{user_id}'
+  AND user_source = '{user_source}'
+  AND login = '{login}';"""
+
+    debug(f"End session SQL: {sql}")
 
     # Create session in the database
-    CURR.execute(
-        # SQL query to insert a new session
-        "UPDATE vstore.session SET end = %s WHERE user_id = %s AND user_source = %s AND login = %s",
-        # Values to insert into the session table
-        (end, user_id, user_source, start),
-    )
+    ret = CURR.execute(sql)
+    ret2 = CURR.rowcount
+
+    debug(ret)
+    debug(ret2)
 
     # Return the end time of the session
