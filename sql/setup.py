@@ -9,7 +9,7 @@ with open("sql/setup.sql", "r", encoding="utf-8") as fil:
 
     for sql_schema_line in sql_schema_lines:
         print(sql_schema_line)
-        sql_schema_line = sql_schema_line.replace("<password>", new_password)
+        sql_schema_line = sql_schema_line.replace("<password>", "_a7r13uVF9i£")
 
         if sql_schema_line.strip().startswith("--"):
             continue
@@ -18,5 +18,4 @@ with open("sql/setup.sql", "r", encoding="utf-8") as fil:
         curr.execute(sql_schema_line)
 
 curr.close()
-conn.close()
 print("Database and tables created!")

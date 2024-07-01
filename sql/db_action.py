@@ -1,5 +1,5 @@
 from datetime import UTC, datetime
-
+from requests import get
 from colorlog import debug
 
 from sql.db_connect import db_connect
@@ -39,7 +39,55 @@ def add_user_if_not_exists(session):
         )
 
 
-def start_session(user_id, user_source):
+def transform_dict_to_postgresql_format(data):
+    # Split the 'loc' field into 'latitude' and 'longitude'
+    latitude, longitude = map(float, data["loc"].split(","))
+
+    # Create the transformed dictionary
+    geo_data = {
+        "latitude": latitude,
+        "longitude": longitude,
+        "postal": data.get("postal"),
+        "city": data.get("city"),
+        "ip": data.get("ip"),
+        "hostname": data.get("hostname"),
+        "ip_org": data.get("org"),
+        "timezone": data.get("timezone"),
+        "country_iso2_code": data.get("country"),
+        "region_iso_code": data.get("region"),
+    }
+
+    return geo_data
+
+
+def get_location(user_ip):
+    if user_ip is None or user_ip == "127.0.0.1":
+        return {
+            "latitude": None,
+            "longitude": None,
+            "postal": None,
+            "city": None,
+            "ip": None,
+            "hostname": None,
+            "ip_org": None,
+            "timezone": None,
+            "country_iso2_code": None,
+            "region_iso_code": None,
+        }
+
+    # Replace 'your_api_key_here' with your actual API key from a geolocation service
+    geoloc_url = f"ipinfo.io/{user_ip}?token=eccc7b89be8042"
+
+    # Make a request to the geolocation API
+    response = get(geoloc_url)
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        data = transform_dict_to_postgresql_format(response.json())
+        return data
+
+
+def start_session(user_id, user_source, user_ip):
     """
     Args:
         user_id (str): The ID of the user.
@@ -54,14 +102,37 @@ def start_session(user_id, user_source):
 
     # Get the current time
     start = datetime.now(UTC).isoformat()
+    geo_data = get_location(user_ip)
 
-    sql = f"""INSERT INTO vstore.session (user_id, user_source, login)
-VALUES ('{user_id}', '{user_source}', '{start}')"""
+    sql = """INSERT INTO vstore.session (user_id, user_source,
+login, latitude, longitude, postal, city, ip,
+hostname, ip_org, timezone, country_iso2_code,
+region_iso_code)
+VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+%s, %s, %s)
+"""
+
+    # Values to insert
+    values = (
+        user_id,
+        user_source,
+        start,
+        geo_data["latitude"],
+        geo_data["longitude"],
+        geo_data["postal"],
+        geo_data["city"],
+        geo_data["ip"],
+        geo_data["hostname"],
+        geo_data["ip_org"],
+        geo_data["timezone"],
+        geo_data["country_iso2_code"],
+        geo_data["region_iso_code"],
+    )
 
     debug(f"Start session SQL: {sql}")
 
     # Create session in the database
-    CURR.execute(sql)
+    CURR.execute(sql, values)
 
     # Return the start time of the session
     return start

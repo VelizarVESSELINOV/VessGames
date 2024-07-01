@@ -223,7 +223,10 @@ def callback(provider):
         return "Provider not supported", 404
 
     add_user_if_not_exists(session)
-    session["session_start"] = start_session(session["user_id"], session["user_source"])
+
+    session["session_start"] = start_session(
+        session["user_id"], session["user_source"], request.remote_addr
+    )
 
     session["email"] = userinfo["email"] if "email" in userinfo else userinfo["login"]
     return redirect("/")

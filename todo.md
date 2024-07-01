@@ -1,5 +1,8 @@
 # To do list
 
+1. if 127 fill NULL
+1. Add ngrok to put it on the web
+1. Add session country and region
 1. Add possibility to edit user info
 1. Save and load preferences
 1. Move SQL code from UI and focus on DB file
